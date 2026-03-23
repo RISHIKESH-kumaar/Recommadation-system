@@ -1,13 +1,12 @@
 import pickle
 import streamlit as st
+import requests
+import os
 
 # ---------------- LOAD DATA ----------------
 movies = pickle.load(open('movie_list.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
-import requests
-import pickle
-import os
 
+# Download similarity file if not exists
 url = "https://drive.google.com/uc?export=download&id=1KWpOQzeOpX6ZP-zNjFWQ4XFBQWK_cZZW"
 
 if not os.path.exists("similarity.pkl"):
@@ -15,7 +14,9 @@ if not os.path.exists("similarity.pkl"):
     with open("similarity.pkl", "wb") as f:
         f.write(r.content)
 
+# Load similarity AFTER download
 similarity = pickle.load(open("similarity.pkl", "rb"))
+
 # ---------------- IMAGE FUNCTION ----------------
 def get_image(movie_name):
     return f"https://via.placeholder.com/300x450?text={movie_name.replace(' ', '+')}"
